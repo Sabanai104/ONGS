@@ -1,0 +1,105 @@
+{
+    "status": "200",
+    "data": [
+        {
+            "id": "0",
+            "title": "Amigos da Vida",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgpUeKf2KYp1BleqsUG-wX2qnCe5kRIh8uHA&s",
+            "localization": {
+                "lat": -15.7893371,
+                "lng": -47.9673263
+            },
+            "category": 0
+        },
+        {
+            "id": "1",
+            "title": "Cáritas de Brasília",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsVh67cPqiw9VdltAUz_tBIX5oa09oTt6V4w&s",
+            "localization": {
+              "lat": -15.7963856,
+              "lng": -47.884742
+            },
+            "category": 1
+      },
+      {
+        "id": "2",
+        "title": "Cruz Vermelha Brasileira - DF",
+        "image": "https://images.sympla.com.br/67c0f764c7189.jpg",
+        "localization": {
+          "lat": -15.7436463,
+          "lng": -47.9007972
+        },
+        "category": 2
+      },
+      {
+        "id": "3",
+        "title": "Promundo",
+        "image": "https://promundo.org.br/wp-content/uploads/2025/05/footer-bg1-1.png",
+        "localization": {
+          "lat": -15.7876543,
+          "lng": -47.8827896
+        },
+        "category": 3
+      },
+      {
+        "id": "4",
+        "title": "APAE-DF",
+        "image": "https://apaedf.org.br/wp-content/uploads/2024/12/APAE-DF-e-MDHC-assinam-termo-de-fomento-964346-2024-scaled.jpg",
+        "localization": {
+          "lat": -15.8061869,
+          "lng": -48.052079
+        },
+        "category": 0
+      },
+      {
+        "id": "5",
+        "title": "Amigos da Comunidade",
+        "image": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+        "localization": {
+          "lat": -15.8246,
+          "lng": -47.9476
+        },
+        "category": 1
+      },
+      {
+        "id": "6",
+        "title": "Projeto Viver Melhor",
+        "image": "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b",
+        "localization": {
+          "lat": -15.8612,
+          "lng": -48.0343
+        },
+        "category": 2
+      },
+      {
+        "id": "7",
+        "title": "Instituto Reciclando Vidas",
+        "image": "https://images.unsplash.com/photo-1581574208281-9b3b2f1c5d5c",
+        "localization": {
+          "lat": -15.8043,
+          "lng": -47.9231
+        },
+        "category": 3
+      },
+      {
+        "id": "8",
+        "title": "Associação Mãos Solidárias",
+        "image": "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846",
+        "localization": {
+          "lat": -15.8489,
+          "lng": -47.9874
+        },
+        "category": 0
+      },
+      {
+        "id": "9",
+        "title": "Instituto Educacional Esperança",
+        "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+        "localization": {
+          "lat": -15.7602,
+          "lng": -47.8719
+        },
+        "category": 1
+      }
+    ]
+}

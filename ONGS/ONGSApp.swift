@@ -11,7 +11,7 @@ import SwiftUI
 struct ONGSApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentFactory.make()
         }
     }
 }

@@ -29,9 +29,33 @@
 		E67D778A2F235DDF00C80187 /* ONGSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ONGSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E67ACF482F3AD2C900551669 /* Exceptions for "ONGS" folder in "ONGS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = E67D77722F235DDE00C80187 /* ONGS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		E67ACF332F353F6C00551669 /* Exceptions for "ONGS" folder in "Compile Sources" phase from "ONGS" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = E67D776F2F235DDE00C80187 /* Sources */;
+			membershipExceptions = (
+				Resources/OngsSimplifiedList.JSON,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E67D77752F235DDE00C80187 /* ONGS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E67ACF482F3AD2C900551669 /* Exceptions for "ONGS" folder in "ONGS" target */,
+				E67ACF332F353F6C00551669 /* Exceptions for "ONGS" folder in "Compile Sources" phase from "ONGS" target */,
+			);
 			path = ONGS;
 			sourceTree = "<group>";
 		};
@@ -400,6 +424,8 @@
 				DEVELOPMENT_TEAM = 6367ZH4ZBS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ONGS/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Usamos sua localização para mostrar ONGs próximas de você.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -428,6 +454,8 @@
 				DEVELOPMENT_TEAM = 6367ZH4ZBS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ONGS/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Usamos sua localização para mostrar ONGs próximas de você.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
