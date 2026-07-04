@@ -20,13 +20,16 @@ enum ContentServiceError: Error {
 final class ContentService: ContentServicing {
     private let baseURL: URL?
     private let urlSession: URLSession
+    private let localDataSource: OngsLocalDataSource
 
     init(
         baseURL: URL? = URL(string: "http://localhost:3000"),
-        urlSession: URLSession = .shared
+        urlSession: URLSession = .shared,
+        localDataSource: OngsLocalDataSource = BundledOngsDataSource()
     ) {
         self.baseURL = baseURL
         self.urlSession = urlSession
+        self.localDataSource = localDataSource
     }
 
     func getOngs(
@@ -38,9 +41,35 @@ final class ContentService: ContentServicing {
         limit: Int
     ) async throws -> OngsListResponse {
         guard let baseURL else {
-            return .empty
+            return try localDataSource.loadOngs()
         }
 
+        do {
+            let response = try await fetchOngs(
+                baseURL: baseURL,
+                categoria: categoria,
+                lat: lat,
+                lng: lng,
+                raioKm: raioKm,
+                page: page,
+                limit: limit
+            )
+
+            return response.data.isEmpty ? try localDataSource.loadOngs() : response
+        } catch {
+            return try localDataSource.loadOngs()
+        }
+    }
+
+    private func fetchOngs(
+        baseURL: URL,
+        categoria: String?,
+        lat: Double?,
+        lng: Double?,
+        raioKm: Double?,
+        page: Int,
+        limit: Int
+    ) async throws -> OngsListResponse {
         let url = try makeOngsURL(
             baseURL: baseURL,
             categoria: categoria,
@@ -123,12 +152,6 @@ final class ContentService: ContentServicing {
               (200..<300).contains(httpResponse.statusCode) else {
             throw ContentServiceError.invalidResponse
         }
-    }
-}
-
-private extension OngsListResponse {
-    static var empty: OngsListResponse {
-        OngsListResponse(data: [], pagination: OngsPagination(page: 0, limit: 0, total: 0, totalPages: 0))
     }
 }
 

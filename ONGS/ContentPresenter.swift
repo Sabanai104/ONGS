@@ -1,3 +1,5 @@
+import SwiftUI
+
 protocol ContentPresenting {
     @MainActor func presentOngs(ongs: [OngsWithDistance])
     @MainActor func presentError()
@@ -15,11 +17,15 @@ final class ContentPresenter: ContentPresenting {
     }
 
     func presentOngs(ongs: [OngsWithDistance]) {
-        viewState.state = .success(ongs: ongs)
+        withAnimation(.easeInOut(duration: 0.35)) {
+            viewState.state = .success(ongs: ongs)
+        }
     }
 
     func presentError() {
-        viewState.state = .failure
+        withAnimation(.easeInOut(duration: 0.35)) {
+            viewState.state = .failure
+        }
     }
 
     func presentLoading() {

@@ -3,24 +3,41 @@ import SwiftUI
 struct CategoriesButtonsView: View {
     @Binding private var choosedCategory: String?
 
-    init(choosedCategory: Binding<String?>) {
+    private let interactor: CategoriesInteractorProtocol
+    @StateObject private var viewState: CategoriesViewState
+
+    init(
+        interactor: CategoriesInteractorProtocol,
+        viewState: CategoriesViewState,
+        choosedCategory: Binding<String?>
+    ) {
+        self.interactor = interactor
+        _viewState = StateObject(wrappedValue: viewState)
         self._choosedCategory = choosedCategory
     }
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                CategoryButtonView(choosedCategory: $choosedCategory, category: nil, label: "Todos")
-                CategoryButtonView(choosedCategory: $choosedCategory, category: "Apoio a mulheres", label: "Apoio a mulheres")
-                CategoryButtonView(choosedCategory: $choosedCategory, category: "Apoio aos animais", label: "Apoio aos animais")
-                CategoryButtonView(choosedCategory: $choosedCategory, category: "Apoio aos necessitados", label: "Apoio aos necessitados")
-                CategoryButtonView(choosedCategory: $choosedCategory, category: "Moradores de rua", label: "Moradores de rua")
-                CategoryButtonView(choosedCategory: $choosedCategory, category: "PCDs", label: "PCDs")
-                CategoryButtonView(choosedCategory: $choosedCategory, category: "Apoio a causas LGBT", label: "Apoio a causas LGBT")
-                CategoryButtonView(choosedCategory: $choosedCategory, category: "Naruto", label: "Naruto")
-                CategoryButtonView(choosedCategory: $choosedCategory, category: "Causas raciais", label: "Causas raciais")
-                CategoryButtonView(choosedCategory: $choosedCategory, category: "Sei la mais", label: "Sei la mais")
+                switch viewState.state {
+                case .loading:
+                    CategoryChipSkeletonView(width: 70)
+                    CategoryChipSkeletonView(width: 140)
+                    CategoryChipSkeletonView(width: 110)
+                    CategoryChipSkeletonView(width: 90)
+                    CategoryChipSkeletonView(width: 130)
+                case .success(let categories):
+                    CategoryButtonView(choosedCategory: $choosedCategory, category: nil, label: "Todos")
+                        .transition(.opacity)
+                    ForEach(categories, id: \.self) { category in
+                        CategoryButtonView(choosedCategory: $choosedCategory, category: category, label: category)
+                            .transition(.opacity)
+                    }
+                }
             }
+        }
+        .task {
+            await interactor.loadCategories()
         }
     }
 }

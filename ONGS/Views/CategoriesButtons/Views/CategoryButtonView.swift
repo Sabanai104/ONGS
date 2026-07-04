@@ -24,15 +24,20 @@ struct CategoryButtonView: View {
                 .foregroundColor(.primaryBlack)
         }
         .frame(minWidth: 55)
-        .buttonStyle(.borderless)
+        .buttonStyle(PressableButtonStyle())
         .padding(16)
         .background(
-            choosedCategory == category ?
             RoundedRectangle(cornerRadius: 8)
-                .fill(.secondaryColorGreen)
-            :
-            RoundedRectangle(cornerRadius: 8)
-                .fill(.primaryLightGray)
+                .fill(choosedCategory == category ? .secondaryColorGreen : .primaryLightGray)
         )
+        .animation(.easeInOut(duration: 0.2), value: choosedCategory)
+    }
+}
+
+private struct PressableButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
+            .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
     }
 }

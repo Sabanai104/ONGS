@@ -43,3 +43,41 @@ struct OngsWithDistance: Identifiable {
     let image: String
     let distanceInKm: Double
 }
+
+struct OngsSimplifiedResponse: Decodable {
+    let status: String
+    let data: [OngSimplified]
+}
+
+struct OngSimplified: Decodable {
+    let id: String
+    let title: String
+    let image: String
+    let localization: OngSimplifiedLocation
+    let category: Int
+}
+
+struct OngSimplifiedLocation: Decodable {
+    let lat: Double
+    let lng: Double
+}
+
+extension OngsSimplifiedResponse {
+    var asOngsListResponse: OngsListResponse {
+        OngsListResponse(
+            data: data.map(\.asOngSummary),
+            pagination: OngsPagination(page: 1, limit: data.count, total: data.count, totalPages: 1)
+        )
+    }
+}
+
+private extension OngSimplified {
+    var asOngSummary: OngSummary {
+        OngSummary(
+            id: id,
+            titulo: title,
+            imagem: image,
+            localizacao: OngLocationSummary(latitude: localization.lat, longitude: localization.lng)
+        )
+    }
+}

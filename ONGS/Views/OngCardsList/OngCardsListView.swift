@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct OngCardsListView: View {
-    @State var ongs: [OngsWithDistance]
+    let ongs: [OngsWithDistance]
 
     var body: some View {
         let columns = [
@@ -12,6 +12,7 @@ struct OngCardsListView: View {
         LazyVGrid(columns: columns, spacing: 16) {
             ForEach(ongs, id: \.id) { ong in
                 OngCardView(
+                    id: ong.id,
                     image: ong.image,
                     title: ong.title,
                     distance: ong.distanceInKm

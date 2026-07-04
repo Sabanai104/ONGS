@@ -20,7 +20,7 @@ struct ContentView: View {
         NavigationStack {
             ScrollView() {
                 VStack(alignment: .leading, spacing: .zero) {
-                    CategoriesButtonsView(choosedCategory: $choosedCategory)
+                    CategoriesFactory.make(choosedCategory: $choosedCategory)
                     Text("Todas as categorias")
                         .font(.system(size: 22, weight: .semibold))
                         .foregroundColor(.primaryBlack)
@@ -31,13 +31,18 @@ struct ContentView: View {
                         .foregroundColor(.label)
                         .padding(.top, 8)
                     
-                    switch viewState.state {
-                    case .success(let ongs):
-                        OngCardsListView(ongs: ongs)
-                    case .loading:
-                        OngsLoadingView()
-                    case .failure:
-                        OngsErrorView(onRetry: loadOngs)
+                    Group {
+                        switch viewState.state {
+                        case .success(let ongs):
+                            OngCardsListView(ongs: ongs)
+                                .transition(.opacity.combined(with: .move(edge: .bottom)))
+                        case .loading:
+                            OngsLoadingView()
+                                .transition(.opacity)
+                        case .failure:
+                            OngsErrorView(onRetry: loadOngs)
+                                .transition(.opacity.combined(with: .scale(scale: 0.96)))
+                        }
                     }
                     Spacer()
                 }
@@ -50,7 +55,9 @@ struct ContentView: View {
         .toolbarBackground(.thinMaterial, for: .navigationBar)
         .padding(0)
         .onChange(of: searchInput) { oldValue, newValue in
-            loadOngs()
+            Task {
+                await interactor.filterOngs(title: newValue)
+            }
         }
         .onChange(of: choosedCategory) { oldValue, newValue in
             loadOngs()

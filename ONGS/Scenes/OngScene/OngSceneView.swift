@@ -3,7 +3,18 @@ import MapKit
 
 struct OngSceneView: View {
     @Environment(\.dismiss) private var dismiss
-    
+
+    private let image: String
+    private let title: String
+
+    init(
+        image: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgpUeKf2KYp1BleqsUG-wX2qnCe5kRIh8uHA&s",
+        title: String = "Grupo Mulheres do Brasil - Brasília"
+    ) {
+        self.image = image
+        self.title = title
+    }
+
     @State private var cameraPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(
@@ -80,7 +91,7 @@ extension OngSceneView {
     var headerView: some View {
         ZStack(alignment: .topLeading) {
             CachedAsyncImageView(
-                url: URL(string: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgpUeKf2KYp1BleqsUG-wX2qnCe5kRIh8uHA&s")
+                url: URL(string: image)
             ) { phase in
                 switch phase {
                 case .success(let img):
@@ -111,7 +122,7 @@ extension OngSceneView {
     var info: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
-                Text("Grupo Mulheres do Brasil - Brasília")
+                Text(title)
                     .font(.headline)
                     .multilineTextAlignment(.center)
 

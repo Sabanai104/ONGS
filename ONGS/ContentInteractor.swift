@@ -3,11 +3,13 @@ import CoreLocation
 
 protocol ContentInteractorProtocol: AnyObject {
     func getOngs(title: String?, userLocation: CLLocation, category: String?) async
+    func filterOngs(title: String?) async
 }
 
 final class ContentInteractor: ContentInteractorProtocol {
     private let services: ContentServicing
     private let presenter: ContentPresenting
+    private var lastLoadedOngs: [OngsWithDistance] = []
 
     init(services: ContentServicing, presenter: ContentPresenting) {
         self.services = services
@@ -27,15 +29,7 @@ final class ContentInteractor: ContentInteractorProtocol {
                 limit: 50
             )
 
-            var ongs = response.data
-
-            if let title, title != "" {
-                ongs = ongs.filter { ong in
-                    ong.titulo.contains(title)
-                }
-            }
-
-            let newResponse = ongs.map { ong in
+            lastLoadedOngs = response.data.map { ong in
                 OngsWithDistance(
                     id: ong.id,
                     title: ong.titulo,
@@ -44,9 +38,19 @@ final class ContentInteractor: ContentInteractorProtocol {
                 )
             }
 
-            await presenter.presentOngs(ongs: newResponse)
+            await presenter.presentOngs(ongs: filtered(byTitle: title))
         } catch {
             await presenter.presentError()
         }
+    }
+
+    func filterOngs(title: String?) async {
+        await presenter.presentOngs(ongs: filtered(byTitle: title))
+    }
+
+    private func filtered(byTitle title: String?) -> [OngsWithDistance] {
+        guard let title, !title.isEmpty else { return lastLoadedOngs }
+
+        return lastLoadedOngs.filter { $0.title.localizedCaseInsensitiveContains(title) }
     }
 }

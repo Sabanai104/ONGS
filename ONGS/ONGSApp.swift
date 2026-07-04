@@ -11,7 +11,9 @@ import SwiftUI
 struct ONGSApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentFactory.make()
+            SplashView {
+                ContentFactory.make()
+            }
         }
     }
 }

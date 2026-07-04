@@ -1,11 +1,15 @@
 import SwiftUI
 
 struct OngCardView: View {
+    @Namespace private var heroAnimation
+
+    private let id: String
     private let image: String
     private let title: String
     private let distance: Double
 
-    init(image: String, title: String, distance: Double) {
+    init(id: String, image: String, title: String, distance: Double) {
+        self.id = id
         self.image = image
         self.title = title
         self.distance = distance
@@ -13,7 +17,8 @@ struct OngCardView: View {
 
     var body: some View {
         NavigationLink(
-            destination: OngSceneView()
+            destination: OngSceneView(image: image, title: title)
+                .navigationTransition(.zoom(sourceID: id, in: heroAnimation))
         ) {
             VStack {
                 CachedAsyncImageView(url: URL(string: image), scale: 2, transaction: .init(animation: .easeIn)) { phase in
@@ -60,5 +65,7 @@ struct OngCardView: View {
                 .padding(.horizontal, 4)
             }
         }
+        .matchedTransitionSource(id: id, in: heroAnimation)
+        .transition(.opacity.combined(with: .scale(scale: 0.94)))
     }
 }
