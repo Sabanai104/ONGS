@@ -17,7 +17,7 @@ struct OngCardView: View {
 
     var body: some View {
         NavigationLink(
-            destination: OngSceneView(image: image, title: title)
+            destination: OngSceneFactory.make(id: id, fallbackImage: image, fallbackTitle: title)
                 .navigationTransition(.zoom(sourceID: id, in: heroAnimation))
         ) {
             VStack {
