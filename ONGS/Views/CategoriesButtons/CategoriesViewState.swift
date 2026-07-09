@@ -7,4 +7,5 @@ final class CategoriesViewState: ObservableObject {
 enum CategoriesLoadState {
     case success(categories: [String])
     case loading
+    case failure
 }

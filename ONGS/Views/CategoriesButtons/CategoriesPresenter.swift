@@ -3,6 +3,7 @@ import SwiftUI
 protocol CategoriesPresenting {
     @MainActor func presentCategories(_ categories: [String])
     @MainActor func presentLoading()
+    @MainActor func presentError()
 }
 
 @MainActor
@@ -22,6 +23,12 @@ final class CategoriesPresenter: CategoriesPresenting {
     func presentLoading() {
         withAnimation(.easeInOut(duration: 0.35)) {
             viewState.state = .loading
+        }
+    }
+
+    func presentError() {
+        withAnimation(.easeInOut(duration: 0.35)) {
+            viewState.state = .failure
         }
     }
 }

@@ -14,8 +14,11 @@ final class CategoriesInteractor: CategoriesInteractorProtocol {
     func loadCategories() async {
         await presenter.presentLoading()
 
-        let categories = await service.getCategories()
-
-        await presenter.presentCategories(categories)
+        do {
+            let categories = try await service.getCategories()
+            await presenter.presentCategories(categories.map(\.nome))
+        } catch {
+            await presenter.presentError()
+        }
     }
 }

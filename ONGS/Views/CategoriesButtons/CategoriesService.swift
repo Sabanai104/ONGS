@@ -1,35 +1,43 @@
 import Foundation
 
 protocol CategoriesServicing: AnyObject {
-    func getCategories() async -> [String]
+    func getCategories() async throws -> [Categoria]
+}
+
+enum CategoriesServiceError: Error {
+    case invalidURL
+    case invalidResponse
 }
 
 final class CategoriesService: CategoriesServicing {
-    private let categories: [String]
-    private let simulatedDelayNanoseconds: UInt64
+    private let baseURL: URL?
+    private let urlSession: URLSession
 
     init(
-        categories: [String] = defaultCategories,
-        simulatedDelayNanoseconds: UInt64 = 600_000_000
+        baseURL: URL? = URL(string: "http://localhost:3000"),
+        urlSession: URLSession = .shared
     ) {
-        self.categories = categories
-        self.simulatedDelayNanoseconds = simulatedDelayNanoseconds
+        self.baseURL = baseURL
+        self.urlSession = urlSession
     }
 
-    func getCategories() async -> [String] {
-        try? await Task.sleep(nanoseconds: simulatedDelayNanoseconds)
-        return categories
+    func getCategories() async throws -> [Categoria] {
+        guard let baseURL else {
+            throw CategoriesServiceError.invalidURL
+        }
+
+        let url = baseURL.appendingPathComponent("categorias")
+
+        let (data, response) = try await urlSession.data(from: url)
+        try validate(response)
+
+        return try JSONDecoder().decode([Categoria].self, from: data)
     }
 
-    static let defaultCategories = [
-        "Apoio a mulheres",
-        "Apoio aos animais",
-        "Apoio aos necessitados",
-        "Moradores de rua",
-        "PCDs",
-        "Apoio a causas LGBT",
-        "Naruto",
-        "Causas raciais",
-        "Sei la mais"
-    ]
+    private func validate(_ response: URLResponse) throws {
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200..<300).contains(httpResponse.statusCode) else {
+            throw CategoriesServiceError.invalidResponse
+        }
+    }
 }

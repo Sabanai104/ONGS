@@ -33,6 +33,11 @@ struct CategoriesButtonsView: View {
                         CategoryButtonView(choosedCategory: $choosedCategory, category: category, label: category)
                             .transition(.opacity)
                     }
+                case .failure:
+                    CategoryErrorChipView {
+                        Task { await interactor.loadCategories() }
+                    }
+                    .transition(.opacity)
                 }
             }
         }
